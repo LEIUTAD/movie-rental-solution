@@ -3,8 +3,11 @@
 This is a dummy representation of a movie rental system.
 Can you help us fix some issues and implement missing features?
 
- * The app is throwing an error when we start, please help us. Also, tell us what caused the issue.
- * The rental class has a method to save, but it is not async, can you make it async and explain to us what is the difference?
+ * The app is throwing an error when we start, please help us. Also, tell us what caused the issue. R : Since DbContext is typically registered as Scoped, any service that depends on it — like RentalFeatures — cannot be 
+  registered as Singleton, otherwise it will cause a lifetime mismatch error.
+ * The rental class has a method to save, but it is not async, can you make it async and explain to us what is the difference? R : The original Save method in the Rental class wasn’t async, which means it blocked the system 
+   while saving data to the database. We changed it to use async/await, so the app can keep running smoothly while waiting for the database. This makes the system faster and more responsive, especially when there are many 
+   users at the same time.
  * Please finish the method to filter rentals by customer name, and add the new endpoint.
  * We noticed we do not have a table for customers, it is not good to have just the customer name in the rental.
    Can you help us add a new entity for this? Don't forget to change the customer name field to a foreign key, and fix your previous method!
