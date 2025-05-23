@@ -10,12 +10,19 @@ namespace MovieRental.Controllers
     {
 
         private readonly IRentalFeatures _features;
+        
 
         public RentalController(IRentalFeatures features)
         {
             _features = features;
         }
 
+        [HttpGet("by-customer")]
+        public async Task<IActionResult> GetByCustomerName([FromQuery] string name)
+        {
+            var rentals = await _features.GetRentalsByCustomerName(name);
+            return Ok(rentals);
+        }
 
         [HttpPost]
         public IActionResult Post([FromBody] Rental.Rental rental)
