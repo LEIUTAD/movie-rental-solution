@@ -34,3 +34,18 @@ artifacts/
 # OS generated files
 .DS_Store
 Thumbs.db
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Test logs
+*.testlog
+*.manifest
+
+# Rider
+.idea/
+*.sln.iml
