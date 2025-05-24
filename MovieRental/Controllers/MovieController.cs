@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using MovieRental.Movie;
+using MovieRental.Services;
 
 namespace MovieRental.Controllers
 {
@@ -22,7 +22,7 @@ namespace MovieRental.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] Movie.Movie movie)
+        public IActionResult Post([FromBody] Models.Movie movie)
         {
 	        return Ok(_features.Save(movie));
         }
