@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using MovieRental.Models;
+using MovieRental.Dto;
 using MovieRental.Services;
 
 namespace MovieRental.Controllers
@@ -8,11 +8,9 @@ namespace MovieRental.Controllers
     [Route("[controller]")]
     public class RentalController : ControllerBase
     {
+        private readonly IRentalService _features;
 
-        private readonly IRentalFeatures _features;
-        
-
-        public RentalController(IRentalFeatures features)
+        public RentalController(IRentalService features)
         {
             _features = features;
         }
@@ -20,15 +18,19 @@ namespace MovieRental.Controllers
         [HttpGet("by-customer")]
         public async Task<IActionResult> GetByCustomerName([FromQuery] string name)
         {
-            var rentals = await _features.GetRentalsByCustomerName(name);
+            var rentals = await _features.GetRentalsByCustomerNameAsync(name);
+            if (rentals == null || !rentals.Any())
+            {
+                throw new Exception($"No rentals found for customer '{name}'.");
+            }
             return Ok(rentals);
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] Rental rental)
+        public async Task<IActionResult> CreateRental([FromBody] RentalDto rentalDto)
         {
-	        return Ok(_features.Save(rental));
+            var rental = await _features.CreateRentalAsync(rentalDto);
+            return Ok(rental);
         }
-
-	}
+    }
 }

@@ -1,8 +1,8 @@
 ﻿using MovieRental.Models;
 namespace MovieRental.Services;
 
-public interface IMovieFeatures
+public interface IMovieService
 {
     Movie Save(Movie movie);
-    List<Movie> GetAll();
+    Task<List<Movie>> GetAllAsync();
 }
