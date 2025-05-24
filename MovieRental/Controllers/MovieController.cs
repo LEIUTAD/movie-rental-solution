@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using MovieRental.Services;
+using MovieRental.Models;
 
 namespace MovieRental.Controllers
 {
@@ -8,21 +9,22 @@ namespace MovieRental.Controllers
     public class MovieController : ControllerBase
     {
 
-        private readonly IMovieFeatures _features;
+        private readonly IMovieService _features;
 
-        public MovieController(IMovieFeatures features)
+        public MovieController(IMovieService features)
         {
             _features = features;
         }
 
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
-	        return Ok(_features.GetAll());
+            var movies = await _features.GetAllAsync();
+            return Ok(movies);
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] Models.Movie movie)
+        public IActionResult Post([FromBody] Movie movie)
         {
 	        return Ok(_features.Save(movie));
         }

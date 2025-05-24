@@ -1,12 +1,13 @@
-﻿using MovieRental.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using MovieRental.Data;
 using MovieRental.Models;
 
 namespace MovieRental.Services
 {
-    public class MovieFeatures : IMovieFeatures
+    public class MovieService : IMovieService
     {
         private readonly MovieRentalDbContext _movieRentalDb;
-        public MovieFeatures(MovieRentalDbContext movieRentalDb)
+        public MovieService(MovieRentalDbContext movieRentalDb)
         {
             _movieRentalDb = movieRentalDb;
         }
@@ -19,9 +20,9 @@ namespace MovieRental.Services
         }
 
         // TODO: tell us what is wrong in this method? Forget about the async, what other concerns do you have?
-        public List<Movie> GetAll()
+        public async Task<List<Movie>> GetAllAsync()
         {
-            return _movieRentalDb.Movies.ToList();
+            return await _movieRentalDb.Movies.ToListAsync();
         }
 
 
