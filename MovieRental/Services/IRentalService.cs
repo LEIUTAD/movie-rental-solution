@@ -5,7 +5,7 @@ namespace MovieRental.Services
 {
     public interface IRentalService
     {
-        Task<Rental> CreateRentalAsync(RentalDto dto);
+        Task<RentalResponseDto> CreateRentalAsync(RentalDto dto);
         Task<List<RentalResponseDto>> GetRentalsByCustomerNameAsync(string customerName);
     }
 }

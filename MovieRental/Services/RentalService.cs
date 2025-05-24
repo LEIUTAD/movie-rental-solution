@@ -16,10 +16,9 @@ namespace MovieRental.Services
             _movieRentalDb = movieRentalDb;
         }
 
-        public async Task<Rental> CreateRentalAsync(RentalDto dto)
+        public async Task<RentalResponseDto> CreateRentalAsync(RentalDto dto)
         {
             double price = dto.DaysRented * 5.0;
-
             var provider = PaymentProviderFactory.GetProvider(dto.PaymentMethod);
             bool success = await provider.PayAsync(price);
 
@@ -29,14 +28,26 @@ namespace MovieRental.Services
             var rental = new Rental
             {
                 MovieId = dto.MovieId,
-                DaysRented = dto.DaysRented,
                 CustomerId = dto.CustomerId,
+                DaysRented = dto.DaysRented,
                 PaymentMethod = dto.PaymentMethod
             };
 
             _movieRentalDb.Rentals.Add(rental);
             await _movieRentalDb.SaveChangesAsync();
-            return rental;
+
+            
+            await _movieRentalDb.Entry(rental).Reference(r => r.Movie).LoadAsync();
+            await _movieRentalDb.Entry(rental).Reference(r => r.Customer).LoadAsync();
+
+            return new RentalResponseDto
+            {
+                Id = rental.Id,
+                DaysRented = rental.DaysRented,
+                MovieTitle = rental.Movie.Title,
+                CustomerName = rental.Customer.Name,
+                PaymentMethod = rental.PaymentMethod
+            };
         }
 
         public async Task<List<RentalResponseDto>> GetRentalsByCustomerNameAsync(string customerName)
