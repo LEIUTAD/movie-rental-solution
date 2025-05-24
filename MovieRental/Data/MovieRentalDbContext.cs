@@ -1,7 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting;
 using MovieRental.Models;
-using System.Reflection.Metadata;
 
 namespace MovieRental.Data
 {

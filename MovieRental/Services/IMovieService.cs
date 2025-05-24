@@ -1,8 +1,9 @@
-﻿using MovieRental.Models;
+﻿using MovieRental.Dto;
+using MovieRental.Models;
 namespace MovieRental.Services;
 
 public interface IMovieService
 {
-    Movie Save(Movie movie);
+    Task<Movie> SaveAsync(MovieDto dto);
     Task<List<Movie>> GetAllAsync();
 }

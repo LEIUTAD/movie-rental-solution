@@ -16,6 +16,12 @@ namespace MovieRental.Services
 
         public async Task<Customer> CreateCustomerAsync(CustomerDto dto)
         {
+            bool exists = await _db.Customers
+                .AnyAsync(c => c.Name.ToLower() == dto.Name.ToLower());
+
+            if (exists)
+                throw new ApplicationException($"A customer with the name '{dto.Name}' already exists.");
+
             var customer = new Customer { Name = dto.Name };
             _db.Customers.Add(customer);
             await _db.SaveChangesAsync();

@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using MovieRental.Services;
-using MovieRental.Models;
+using MovieRental.Dto;
 
 namespace MovieRental.Controllers
 {
@@ -8,7 +8,6 @@ namespace MovieRental.Controllers
     [Route("[controller]")]
     public class MovieController : ControllerBase
     {
-
         private readonly IMovieService _features;
 
         public MovieController(IMovieService features)
@@ -24,9 +23,10 @@ namespace MovieRental.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] Movie movie)
+        public async Task<IActionResult> Post([FromBody] MovieDto dto)
         {
-	        return Ok(_features.Save(movie));
+            var movie = await _features.SaveAsync(dto);
+            return Ok(movie);
         }
     }
 }
